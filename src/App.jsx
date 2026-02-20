@@ -315,8 +315,8 @@ function HomePage({ nav }) {
             <Btn onClick={() => nav("uebermich")}>Mehr über mich</Btn>
           </Reveal>
           <Reveal delay={0.15}>
-            <div style={{ position: "relative" }}>
-              <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt. Warmes Seitenlicht. Authentisch, keine Business-Pose." aspect="3/4" />
+            <div style={{ position: "relative", maxWidth: "420px", margin: "0 auto" }}>
+              <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt. Warmes Seitenlicht. Authentisch, keine Business-Pose." aspect="4/5" />
               <div style={{ position: "absolute", bottom: "-1.4rem", right: "-1.4rem", background: C.cream, border: `1px solid ${C.stone}`, padding: "1.3rem 1.8rem", maxWidth: "210px" }}>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".63rem", color: C.clay, marginBottom: ".4rem" }}>27 Jahre</div>
                 <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: ".95rem", color: C.moss, lineHeight: 1.35 }}>Erfahrung mit Kindern & Familien</div>
@@ -374,45 +374,44 @@ function HomePage({ nav }) {
         </div>
       </section>
 
-      {/* ─── KONTAKT STRIP – Responsive Flex/Grid ─── */}
-      <section style={{ background: C.midnight }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "5.5rem clamp(1.4rem,5vw,5rem)" }}>
-
-          {/* Top row */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "2.5rem", paddingBottom: "3.5rem", borderBottom: `1px solid rgba(255,255,255,.07)`, marginBottom: "3.5rem" }}>
-            <div>
-              <div style={{ fontSize: ".6rem", letterSpacing: ".3em", textTransform: "uppercase", color: C.clay, marginBottom: "1.4rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
-                <span style={{ display: "inline-block", width: "2rem", height: "1px", background: C.clay, opacity: .6 }} />
-                04 — Kontakt
-              </div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, fontSize: "clamp(2rem,4vw,4rem)", color: C.cream, lineHeight: 1.05, marginBottom: ".8rem" }}>
-                Bereit für den<br /><em style={{ color: C.clay, fontStyle: "italic" }}>ersten Schritt?</em>
-              </h2>
-              <p style={{ fontSize: ".88rem", color: C.stone, lineHeight: 1.85, maxWidth: "420px" }}>
-                Ich beantworte gerne deine Fragen — telefonisch oder per WhatsApp. Kein Formular, kein langer Weg. Nur ein echtes Gespräch.
-              </p>
+      {/* ─── KONTAKT STRIP – Editorial Redesign ─── */}
+      <section className="wk-section" style={{ background: C.cream, borderTop: `1px solid ${C.stone}` }}>
+        <div className="wk-inner wk-2col" style={{ alignItems: "center" }}>
+          <Reveal>
+            <Label n="04" text="Kontakt" />
+            <H2 size="clamp(2.5rem,4vw,4rem)">Bereit für den<br/><em style={{ color: C.clay, fontStyle: "italic" }}>ersten Schritt?</em></H2>
+            <p style={{ fontSize: ".95rem", color: "#5A5040", lineHeight: 1.85, maxWidth: "420px", marginBottom: "2.5rem" }}>
+              Ich beantworte gerne deine Fragen — telefonisch oder per WhatsApp. Kein Formular, kein langer Weg. Nur ein echtes Gespräch von Mutter zu Mutter oder Fachfrau zu Fachfrau.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <Btn variant="solid" onClick={() => window.open("tel:+436503631969")}>Jetzt anrufen</Btn>
+              <Btn variant="outline" onClick={() => window.open("https://wa.me/436503631969")}>WhatsApp</Btn>
             </div>
-            <div style={{ display: "flex", gap: ".8rem", flexShrink: 0, flexWrap: "wrap" }}>
-              <Btn light variant="solid" onClick={() => window.open("tel:+436503631969")}>Anrufen</Btn>
-              <Btn light variant="outline" onClick={() => window.open("https://wa.me/436503631969")}>WhatsApp</Btn>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            <div style={{ border: `1px solid ${C.stone}`, background: C.white }}>
+              {[
+                { label: "Telefon", main: "+43 650 363 19 69", sub: "Direktkontakt — kein Sekretariat", isMono: true },
+                { label: "Praxis", main: "J.N. Berger-Str. 19", sub: "7210 Mattersburg · Burgenland", isMono: false },
+                { label: "Ordination", main: "Mo–Fr nach Vereinbarung", sub: "Auch kurzfristige Termine möglich", isMono: false }
+              ].map((item, i) => (
+                <div key={i} style={{ padding: "2rem 2.5rem", borderBottom: i < 2 ? `1px solid ${C.stone}` : "none" }}>
+                  <div style={{ fontSize: ".6rem", letterSpacing: ".25em", textTransform: "uppercase", color: C.clay, marginBottom: ".6rem" }}>{item.label}</div>
+                  <div style={{ 
+                    fontFamily: item.isMono ? "'DM Mono',monospace" : "'Cormorant Garamond',serif", 
+                    fontSize: item.isMono ? "1.1rem" : "1.6rem", 
+                    color: C.moss, 
+                    marginBottom: ".3rem",
+                    lineHeight: 1.2
+                  }}>
+                    {item.main}
+                  </div>
+                  <div style={{ fontSize: ".8rem", color: "#5A5040" }}>{item.sub}</div>
+                </div>
+              ))}
             </div>
-          </div>
-
-          {/* Bottom row */}
-          <div className="wk-grid-kontakt">
-            {[
-              { label: "Telefon", main: "+43 650 363 19 69", sub: "Direktkontakt — kein Sekretariat" },
-              { label: "Adresse", main: "J.N. Berger-Str. 19", sub: "7210 Mattersburg · Burgenland" },
-              { label: "Öffnungszeiten", main: "Mo–Fr nach Vereinbarung", sub: "Auch kurzfristige Termine möglich" },
-            ].map((item, i) => (
-              <div key={i}>
-                <div style={{ fontSize: ".57rem", letterSpacing: ".28em", textTransform: "uppercase", color: C.clay, marginBottom: ".8rem" }}>{item.label}</div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".82rem", color: C.cream, marginBottom: ".4rem", lineHeight: 1.4 }}>{item.main}</div>
-                <div style={{ fontSize: ".73rem", color: C.mossMid, lineHeight: 1.5 }}>{item.sub}</div>
-              </div>
-            ))}
-          </div>
-
+          </Reveal>
         </div>
       </section>
     </>
