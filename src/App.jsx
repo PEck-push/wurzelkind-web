@@ -10,7 +10,11 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:#FDFAF5;color:#2A2318;font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body{background:#FDFAF5;color:#2A2318;font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7}
 button{font-family:'DM Sans',sans-serif;cursor:pointer}
 p{font-size:.92rem;line-height:1.85;margin:0}
 
@@ -21,8 +25,6 @@ p{font-size:.92rem;line-height:1.85;margin:0}
 .wk-section-s { padding:4.5rem 5rem; }
 .wk-inner     { max-width:1280px; margin:0 auto; }
 .wk-2col      { display:grid; grid-template-columns:1fr 1fr; gap:6rem; }
-.wk-3col      { display:grid; grid-template-columns:repeat(3,1fr); }
-.wk-svc-grid  { display:grid; grid-template-columns:repeat(3,1fr); }
 .wk-split     { display:grid; grid-template-columns:1fr 1fr; min-height:460px; }
 .wk-hero-grid { display:grid; grid-template-columns:1.1fr .9fr; min-height:100vh; padding-top:70px; }
 .wk-footer-g  { display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:5rem; }
@@ -32,12 +34,25 @@ p{font-size:.92rem;line-height:1.85;margin:0}
 .wk-nav-desk  { display:flex; gap:.15rem; align-items:center; }
 .wk-nav-mob   { display:none; }
 
+/* Responsive Grid Classes for Borders & Stacking */
+.wk-grid-multi { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid ${C.stone}; }
+.wk-grid-multi > div { border-right:1px solid ${C.stone}; border-bottom:1px solid ${C.stone}; }
+.wk-grid-multi > div:nth-child(3n) { border-right:none; }
+.wk-grid-multi > div:nth-last-child(-n+3) { border-bottom:none; }
+
+.wk-grid-single { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid ${C.stone}; }
+.wk-grid-single > div { border-right:1px solid ${C.stone}; }
+.wk-grid-single > div:last-child { border-right:none; }
+
+.wk-grid-kontakt { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+.wk-grid-kontakt > div { border-left:1px solid rgba(255,255,255,.07); padding-left:2.5rem; padding-right:2.5rem; }
+.wk-grid-kontakt > div:first-child { border-left:none; padding-left:0; }
+.wk-grid-kontakt > div:last-child { padding-right:0; }
+
 @media(max-width:900px){
   .wk-section   { padding:4rem 1.4rem; }
   .wk-section-s { padding:3rem 1.4rem; }
   .wk-2col      { grid-template-columns:1fr; gap:2.5rem; }
-  .wk-3col      { grid-template-columns:1fr; }
-  .wk-svc-grid  { grid-template-columns:1fr; }
   .wk-split     { grid-template-columns:1fr; }
   .wk-hero-grid { grid-template-columns:1fr; }
   .wk-footer-g  { grid-template-columns:1fr; gap:3rem; }
@@ -47,6 +62,19 @@ p{font-size:.92rem;line-height:1.85;margin:0}
   .wk-nav-desk  { display:none; }
   .wk-nav-mob   { display:flex; }
   .wk-hero-right{ display:none; }
+
+  .wk-grid-multi { grid-template-columns:1fr; }
+  .wk-grid-multi > div { border-right:none !important; border-bottom:1px solid ${C.stone} !important; }
+  .wk-grid-multi > div:last-child { border-bottom:none !important; }
+
+  .wk-grid-single { grid-template-columns:1fr; }
+  .wk-grid-single > div { border-right:none !important; border-bottom:1px solid ${C.stone} !important; }
+  .wk-grid-single > div:last-child { border-bottom:none !important; }
+
+  .wk-grid-kontakt { grid-template-columns:1fr; gap:2.5rem; }
+  .wk-grid-kontakt > div { border-left:none; border-bottom:1px solid rgba(255,255,255,.07); padding:0 0 2.5rem 0; }
+  .wk-grid-kontakt > div:first-child { padding-left:0; }
+  .wk-grid-kontakt > div:last-child { border-bottom:none; padding-bottom:0; }
 }
 @media(max-width:600px){
   .wk-section   { padding:3rem 1.1rem; }
@@ -74,7 +102,7 @@ function Reveal({ children, delay = 0, style = {} }) {
   return (
     <div ref={ref} style={{
       opacity: vis ? 1 : 0,
-      transform: vis ? "translateY(0)" : "translateY(26px)",
+      transform: vis ? "translateY(26px)" : "translateY(0)",
       transition: `opacity .75s ease ${delay}s, transform .75s ease ${delay}s`,
       ...style
     }}>{children}</div>
@@ -142,7 +170,7 @@ function Btn({ children, onClick, variant = "solid", light = false }) {
     outline: { background: hov ? (light ? "rgba(255,255,255,.08)" : "rgba(184,114,74,.07)") : "transparent", color: light ? C.cream : C.clay, border: `1.5px solid ${light ? C.dust : C.clay}` },
   };
   return (
-    <button style={{ ...v[variant], padding: ".82rem 2rem", fontSize: ".67rem", letterSpacing: ".22em", textTransform: "uppercase", fontFamily: "'DM Sans',sans-serif", transition: "all .22s" }}
+    <button style={{ ...v[variant], padding: ".82rem 2rem", fontSize: ".67rem", letterSpacing: ".22em", textTransform: "uppercase", fontFamily: "'DM Sans',sans-serif", transition: "all .22s", whiteSpace: "nowrap" }}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} onClick={onClick}>{children}</button>
   );
 }
@@ -170,7 +198,7 @@ function Badge({ children }) {
   );
 }
 
-/* ─── BREATHING CIRCLE – matches v1 screenshot ───── */
+/* ─── BREATHING CIRCLE – Subdued Glow ───── */
 function BreathingCircle({ size = 400 }) {
   const rings = [
     { pct: "0%",  strokeColor: C.dust,  strokeW: "1.5px", opacity: 0.5,  delay: "0s" },
@@ -179,12 +207,12 @@ function BreathingCircle({ size = 400 }) {
   ];
   return (
     <div style={{ position: "relative", width: size, height: size, flexShrink: 0, pointerEvents: "none" }}>
-      {/* warm ambient glow */}
+      {/* Subdued ambient glow */}
       <div style={{
         position: "absolute",
         inset: "20%",
         borderRadius: "50%",
-        background: `radial-gradient(ellipse at 55% 45%, rgba(184,114,74,.28) 0%, rgba(196,148,58,.12) 40%, transparent 70%)`,
+        background: `radial-gradient(ellipse at 50% 50%, rgba(184,114,74,.05) 0%, rgba(196,148,58,.02) 40%, transparent 65%)`,
         animation: `breathe 8s ease-in-out infinite 0.7s`
       }} />
       {rings.map((r, i) => (
@@ -211,13 +239,14 @@ function SvcCard({ icon, title, desc, onClick }) {
         background: hov ? C.white : C.cream,
         cursor: "pointer",
         transition: "background .3s",
-        // inset shadow avoids layout shift
         boxShadow: hov ? `inset 3px 0 0 ${C.clay}` : "inset 3px 0 0 transparent",
         height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}>
       <div style={{ fontSize: "1.2rem", marginBottom: ".9rem", color: hov ? C.clay : C.mossMid, transition: "color .3s" }}>{icon}</div>
       <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.4rem", fontWeight: 400, color: C.moss, marginBottom: ".6rem" }}>{title}</h3>
-      <p style={{ fontSize: ".81rem", lineHeight: 1.75, color: "#5A5040", margin: 0 }}>{desc}</p>
+      <p style={{ fontSize: ".81rem", lineHeight: 1.75, color: "#5A5040", margin: 0, flexGrow: 1 }}>{desc}</p>
       <div style={{ marginTop: "1.3rem", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: hov ? C.clay : C.dust, transition: "color .3s" }}>Mehr erfahren →</div>
     </div>
   );
@@ -246,7 +275,7 @@ function HomePage({ nav }) {
             <span style={{ display: "inline-block", width: "1.5rem", height: "1px", background: C.dust, opacity: .6 }} />
             Mattersburg · Burgenland · Österreich
           </div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "2rem", fontSize: "clamp(3rem,5.5vw,6.8rem)" }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "2rem", fontSize: "clamp(2.5rem,5.5vw,6.8rem)" }}>
             Dein Kind darf sich<br />
             <em style={{ color: C.clay, fontStyle: "italic" }}>wohlfühlen</em><br />
             <span style={{ fontSize: "clamp(2rem,3.8vw,4.6rem)", color: C.stone, fontStyle: "italic" }}>— und du auch.</span>
@@ -301,24 +330,15 @@ function HomePage({ nav }) {
       <section className="wk-section-s" style={{ background: C.cream }}>
         <div className="wk-inner">
           <Reveal><Label n="02" text="Leistungen" /><H2>Was ich für dich und dein Kind tue.</H2></Reveal>
-          {/* Grid: each cell wraps a SvcCard and handles its own borders */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            border: `1px solid ${C.stone}`,
-            marginTop: "3rem",
-          }}>
+          
+          <div className="wk-grid-multi" style={{ marginTop: "3rem" }}>
             {services.map((s, i) => (
-              <div key={i} style={{
-                borderRight: i % 3 !== 2 ? `1px solid ${C.stone}` : "none",
-                borderBottom: i < 3 ? `1px solid ${C.stone}` : "none",
-                display: "flex",
-                flexDirection: "column",
-              }}>
+              <div key={i} style={{ display: "flex", flexDirection: "column" }}>
                 <SvcCard {...s} onClick={() => nav(s.id)} />
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -354,11 +374,11 @@ function HomePage({ nav }) {
         </div>
       </section>
 
-      {/* ─── KONTAKT STRIP – completely redesigned ─── */}
+      {/* ─── KONTAKT STRIP – Responsive Flex/Grid ─── */}
       <section style={{ background: C.midnight }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "5.5rem clamp(1.4rem,5vw,5rem)" }}>
 
-          {/* Top row: headline + buttons */}
+          {/* Top row */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "2.5rem", paddingBottom: "3.5rem", borderBottom: `1px solid rgba(255,255,255,.07)`, marginBottom: "3.5rem" }}>
             <div>
               <div style={{ fontSize: ".6rem", letterSpacing: ".3em", textTransform: "uppercase", color: C.clay, marginBottom: "1.4rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
@@ -372,30 +392,27 @@ function HomePage({ nav }) {
                 Ich beantworte gerne deine Fragen — telefonisch oder per WhatsApp. Kein Formular, kein langer Weg. Nur ein echtes Gespräch.
               </p>
             </div>
-            <div style={{ display: "flex", gap: ".8rem", flexShrink: 0 }}>
+            <div style={{ display: "flex", gap: ".8rem", flexShrink: 0, flexWrap: "wrap" }}>
               <Btn light variant="solid" onClick={() => window.open("tel:+436503631969")}>Anrufen</Btn>
               <Btn light variant="outline" onClick={() => window.open("https://wa.me/436503631969")}>WhatsApp</Btn>
             </div>
           </div>
 
-          {/* Bottom row: three info blocks */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0" }}>
+          {/* Bottom row */}
+          <div className="wk-grid-kontakt">
             {[
               { label: "Telefon", main: "+43 650 363 19 69", sub: "Direktkontakt — kein Sekretariat" },
               { label: "Adresse", main: "J.N. Berger-Str. 19", sub: "7210 Mattersburg · Burgenland" },
               { label: "Öffnungszeiten", main: "Mo–Fr nach Vereinbarung", sub: "Auch kurzfristige Termine möglich" },
             ].map((item, i) => (
-              <div key={i} style={{
-                borderLeft: `1px solid rgba(255,255,255,.07)`,
-                paddingLeft: "2.5rem",
-                paddingRight: i < 2 ? "2.5rem" : 0,
-              }}>
+              <div key={i}>
                 <div style={{ fontSize: ".57rem", letterSpacing: ".28em", textTransform: "uppercase", color: C.clay, marginBottom: ".8rem" }}>{item.label}</div>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".82rem", color: C.cream, marginBottom: ".4rem", lineHeight: 1.4 }}>{item.main}</div>
                 <div style={{ fontSize: ".73rem", color: C.mossMid, lineHeight: 1.5 }}>{item.sub}</div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
     </>
@@ -421,7 +438,7 @@ function CranioPage({ nav }) {
         </div>
         <div style={{ maxWidth: "620px", position: "relative", zIndex: 2, padding: "clamp(5rem,9vw,9rem) clamp(1.4rem,5vw,5rem) 5rem" }}>
           <Tag>Spezialisiert auf Neugeborene & Säuglinge</Tag>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.8rem,5vw,5.8rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.4rem,5vw,5.8rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
             Craniosakrale<br /><em style={{ color: C.clay, fontStyle: "italic" }}>Energetik</em>
           </h1>
           <Lead light>Ich höre zu, wo Worte noch fehlen.</Lead>
@@ -454,18 +471,21 @@ function CranioPage({ nav }) {
           </div>
         </Reveal>
       </div></section>
+      
       <section className="wk-section-s" style={{ background: C.cream }}><div className="wk-inner">
         <Reveal><Label n="02" text="Wann kommen Familien zu mir" /><H2>Was Eltern häufig berichten.</H2>
           <p style={{ fontSize: ".88rem", color: "#5A5040", lineHeight: 1.85, maxWidth: "620px", marginBottom: "2rem" }}>Die craniosacrale Therapie ist eine ergänzende Methode — kein Ersatz für ärztliche Diagnosen.</p>
         </Reveal>
-        <div className="wk-3col" style={{ border: `1px solid ${C.stone}` }}>
+        
+        {/* Responsive single grid */}
+        <div className="wk-grid-single">
           {[
             { g: "Neugeborene & Säuglinge", items: ["Nach Kaiserschnitt", "Nach Saugglocke oder Zange", "Asymmetrischer Kopf / Schiefhals", "Stillschwierigkeiten & Saugprobleme", "Überstrecken des Körpers", "Anhaltende Unruhe & Schreien", "Schlafprobleme", "Verdauungsbeschwerden"] },
             { g: "Kleinkinder", items: ["Auffälligkeiten in der Entwicklung", "Koordinationsprobleme", "Nach Stürzen oder Verletzungen", "Zahnungsprobleme", "Häufige Infekte", "Schlafprobleme", "Innere Unruhe / Reizbarkeit"] },
             { g: "Mütter & Erwachsene", items: ["Erschöpfung nach der Geburt", "Rücken- und Beckenbeschwerden", "Chronische Kopfschmerzen", "Kiefergelenks-Beschwerden", "Nackenverspannungen", "Stress & innere Unruhe"] },
           ].map((g, i) => (
-            <Reveal key={g.g} delay={i * 0.12}>
-              <div style={{ padding: "2.3rem 1.8rem", borderRight: i < 2 ? `1px solid ${C.stone}` : "none", height: "100%" }}>
+            <Reveal key={g.g} delay={i * 0.12} style={{ height: "100%" }}>
+              <div style={{ padding: "2.3rem 1.8rem", height: "100%" }}>
                 <div style={{ fontSize: ".6rem", letterSpacing: ".25em", textTransform: "uppercase", color: C.clay, marginBottom: "1.3rem" }}>{g.g}</div>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                   {g.items.map(it => (
@@ -479,6 +499,7 @@ function CranioPage({ nav }) {
           ))}
         </div>
       </div></section>
+      
       <div className="wk-split">
         <div style={{ position: "relative", minHeight: "380px" }}>
           <ImageSlot label="Mutter-Kind Moment" desc="Entspannte Mutter hält ruhiges Baby nach der Behandlung. Echte Erleichterung." fill />
@@ -495,7 +516,7 @@ function CranioPage({ nav }) {
           <Label n="04" text="Preise" light /><H2 light>Transparente Honorare</H2>
           <div style={{ border: `1px solid rgba(224,213,196,.2)`, marginTop: "2rem" }}>
             {[["Erstbehandlung Säugling (60 min)", "€ 75,–"], ["Folgebehandlung (45 min)", "€ 60,–"], ["Erstbehandlung Kleinkind / Erwachsener", "€ 80,–"], ["CST + Tuina kombiniert", "€ 85,–"]].map(([l, p], i) => (
-              <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1.1rem 1.8rem", borderBottom: "1px solid rgba(224,213,196,.15)", background: i % 2 === 0 ? "rgba(255,255,255,.03)" : "transparent" }}>
+              <div key={i} style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", alignItems: "center", padding: "1.1rem 1.8rem", borderBottom: "1px solid rgba(224,213,196,.15)", background: i % 2 === 0 ? "rgba(255,255,255,.03)" : "transparent" }}>
                 <span style={{ fontSize: ".87rem", color: C.stone }}>{l}</span>
                 <span style={{ fontFamily: "'DM Mono',monospace", fontSize: ".84rem", color: C.clay }}>{p}</span>
               </div>
@@ -517,7 +538,7 @@ function TCMPage() {
         <div className="wk-tcm-hero">
           <div>
             <Tag>Akademische Expertin · Donau Universität Krems</Tag>
-            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.5rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
+            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.2rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
               Nahrung als<br /><em style={{ color: C.clay }}>Medizin.</em>
             </h1>
             <Lead light>Die Energie der Mitte stärken.</Lead>
@@ -561,7 +582,7 @@ function TuinaPage() {
       <section style={{ background: C.moss, padding: "clamp(6rem,10vw,9rem) clamp(1.4rem,5vw,5rem) 5rem" }}>
         <div style={{ maxWidth: "680px", margin: "0 auto", paddingTop: "40px" }}>
           <Tag>Ausgebildete Kursleitung · Little Path Neusiedl</Tag>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.5rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.2rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
             Kinder-Tuina &<br /><em style={{ color: C.clay }}>Massagetechniken</em>
           </h1>
           <Lead light>Sanfte chinesische Körpertherapie für Kinder und Erwachsene.</Lead>
@@ -608,7 +629,7 @@ function SchmerzPage() {
       <section style={{ background: C.moss, padding: "clamp(6rem,10vw,9rem) clamp(1.4rem,5vw,5rem) 5rem" }}>
         <div style={{ maxWidth: "680px", margin: "0 auto", paddingTop: "40px" }}>
           <Tag>Elektrisch-neurologische Schmerztherapie</Tag>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.5rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.2rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
             Moderne Impulse.<br /><em style={{ color: C.clay }}>Ohne Nadeln.</em>
           </h1>
           <Lead light>Präzise Punktstimulation bei akuten und chronischen Beschwerden.</Lead>
@@ -679,10 +700,10 @@ function AromaPage() {
       </div></section>
       <section className="wk-section-s" style={{ background: C.cream }}><div className="wk-inner">
         <Reveal><Label n="03" text="Sicherheitsinfo" /><H2>Welche Öle für welches Alter</H2></Reveal>
-        <div className="wk-3col" style={{ border: `1px solid ${C.stone}`, marginTop: "2rem" }}>
+        <div className="wk-grid-multi" style={{ marginTop: "2rem" }}>
           {oils.map((o, i) => (
-            <Reveal key={i} delay={i * 0.07}>
-              <div style={{ padding: "1.8rem 1.4rem", borderRight: i % 3 < 2 ? `1px solid ${C.stone}` : "none", borderBottom: i < 3 ? `1px solid ${C.stone}` : "none" }}>
+            <Reveal key={i} delay={i * 0.07} style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ padding: "1.8rem 1.4rem", flexGrow: 1 }}>
                 <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.45rem", color: C.moss, marginBottom: ".2rem" }}>{o.name}</div>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".57rem", color: C.clay, marginBottom: ".7rem", fontStyle: "italic" }}>{o.lat}</div>
                 <p style={{ fontSize: ".78rem", color: "#5A5040", margin: "0 0 .7rem", lineHeight: 1.6 }}>{o.anw}</p>
@@ -715,7 +736,7 @@ function UeberMichPage() {
       <section className="wk-about-hero" style={{ background: C.moss }}>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(3rem,6vw,6rem) clamp(1.4rem,5vw,5rem) clamp(3rem,5vw,5rem)" }}>
           <Tag>DGKP · Craniosacral Energetikerin · TCM Akademische Expertin</Tag>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.8rem,5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.4rem,5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
             Marion<br /><em style={{ color: C.clay }}>Sailer-Riegler</em>
           </h1>
           <Lead light>Verwurzelt im Wissen, geleitet vom Gespür.</Lead>
@@ -873,6 +894,7 @@ function Footer({ nav }) {
 export default function App() {
   const [page, setPage] = useState("home");
   useEffect(() => {
+    // Inject custom CSS logic dynamically once
     const s = document.createElement("style");
     s.id = "wk-css";
     s.textContent = CSS;
