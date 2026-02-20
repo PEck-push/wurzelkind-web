@@ -33,6 +33,7 @@ p{font-size:.92rem;line-height:1.85;margin:0}
 .wk-aroma-hero{ display:grid; grid-template-columns:1fr .9fr; gap:6rem; align-items:center; padding:110px 5rem 5rem; max-width:1400px; margin:0 auto; }
 .wk-nav-desk  { display:flex; gap:.15rem; align-items:center; }
 .wk-nav-mob   { display:none; }
+.wk-hide-mob  { display:inline; }
 
 /* Responsive Grid Classes for Borders & Stacking */
 .wk-grid-multi { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid ${C.stone}; }
@@ -62,6 +63,7 @@ p{font-size:.92rem;line-height:1.85;margin:0}
   .wk-nav-desk  { display:none; }
   .wk-nav-mob   { display:flex; }
   .wk-hero-right{ display:none; }
+  .wk-hide-mob  { display:none; }
 
   .wk-grid-multi { grid-template-columns:1fr; }
   .wk-grid-multi > div { border-right:none !important; border-bottom:1px solid ${C.stone} !important; }
@@ -769,7 +771,7 @@ function UeberMichPage() {
     <>
       <section className="wk-about-hero" style={{ background: C.moss }}>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(3rem,6vw,6rem) clamp(1.4rem,5vw,5rem) clamp(3rem,5vw,5rem)" }}>
-          <Tag>DGKP · Craniosacral Energetikerin · TCM Akademische Expertin</Tag>
+          <Tag>DGKP · Craniosacral Energetikerin<span className="wk-hide-mob"> · TCM Akademische Expertin</span></Tag>
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.4rem,5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
             Marion<br /><em style={{ color: C.clay }}>Sailer-Riegler</em>
           </h1>
