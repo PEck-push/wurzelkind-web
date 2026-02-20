@@ -296,7 +296,7 @@ function HomePage({ nav }) {
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(4rem,8vw,7rem) clamp(1.4rem,5vw,5rem) clamp(3.5rem,6vw,5.5rem)", position: "relative", zIndex: 2 }}>
           <div style={{ fontSize: ".62rem", letterSpacing: ".35em", textTransform: "uppercase", color: C.dust, marginBottom: "2rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
             <span style={{ display: "inline-block", width: "1.5rem", height: "1px", background: C.dust, opacity: .6 }} />
-            Ganzheitliche Praxis für Cranio Sacral Therapie · Mattersburg
+            Ganzheitliche Praxis · Mattersburg
           </div>
           <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "2rem", fontSize: "clamp(2.5rem,5.5vw,6.8rem)" }}>
             Dein Kind darf sich<br />
@@ -808,9 +808,9 @@ function UeberMichPage() {
       <section className="wk-section-s" style={{ background: C.moss }}><div style={{ maxWidth: "780px", margin: "0 auto" }}>
         <Reveal>
           <Label n="03" text="Meine Haltung" light />
-          <H2 light>Weder Wunderheilerin noch Besserwisserin.</H2>
-          <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95, marginBottom: "1.3rem" }}>Ich nehme keine Rolle ein, die ich nicht erfüllen kann. Craniosacrale Therapie heilt keine Diagnosen — sie unterstützt die Selbstheilungskräfte des Körpers.</p>
-          <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95 }}>Ich spreche beide Sprachen: die der erschöpften Mutter um 3 Uhr nachts und die des skeptischen Kinderarztes. Ich bin keine Heilerin. Ich bin eine Übersetzerin.</p>
+          <H2 light>Medizinisch fundiert. Menschlich nah.</H2>
+          <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95, marginBottom: "1.3rem" }}>Ich nehme keine Rolle ein, die ich nicht erfüllen kann. Craniosacrale Therapie unterstützt die Selbstheilungskräfte des Körpers.</p>
+          <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95 }}>Ich spreche beide Sprachen: die der erschöpften Eltern um 3 Uhr nachts und die des Kinderarztes und medizinischen Befundes. Meine Aufgabe ist es, diese beiden Welten zu verbinden.</p>
         </Reveal>
       </div></section>
       <div className="wk-split">
