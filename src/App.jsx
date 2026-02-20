@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 
-/* ─── COLORS ─────────────────────────────────────── */
 const C = {
   cream:"#F4EEE3", stone:"#E0D5C4", clay:"#B8724A", clayDeep:"#8C4E2A",
   moss:"#3A4636", mossMid:"#5A6855", dust:"#C8A99A", midnight:"#1E2018",
   white:"#FDFAF5", ink:"#2A2318"
 };
 
-/* ─── GLOBAL CSS ─────────────────────────────────── */
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -16,10 +14,9 @@ body{background:#FDFAF5;color:#2A2318;font-family:'DM Sans',sans-serif;font-weig
 button{font-family:'DM Sans',sans-serif;cursor:pointer}
 p{font-size:.92rem;line-height:1.85;margin:0}
 
-@keyframes breathe{0%,100%{transform:scale(1);opacity:.38}50%{transform:scale(1.06);opacity:.72}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.05);opacity:.85}}
 @keyframes wkFadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── responsive layout helpers ── */
 .wk-section   { padding:6rem 5rem; }
 .wk-section-s { padding:4.5rem 5rem; }
 .wk-inner     { max-width:1280px; margin:0 auto; }
@@ -72,7 +69,6 @@ function useReveal() {
   return [ref, vis];
 }
 
-/* ─── COMPONENTS ─────────────────────────────────── */
 function Reveal({ children, delay = 0, style = {} }) {
   const [ref, vis] = useReveal();
   return (
@@ -174,50 +170,77 @@ function Badge({ children }) {
   );
 }
 
-/* ─── BREATHING CIRCLE (v1 style) ───────────────── */
-function BreathingCircle({ size = 380 }) {
+/* ─── BREATHING CIRCLE – matches v1 screenshot ───── */
+function BreathingCircle({ size = 400 }) {
+  const rings = [
+    { pct: "0%",  strokeColor: C.dust,  strokeW: "1.5px", opacity: 0.5,  delay: "0s" },
+    { pct: "14%", strokeColor: C.dust,  strokeW: "1px",   opacity: 0.32, delay: "1.6s" },
+    { pct: "30%", strokeColor: C.clay,  strokeW: "1px",   opacity: 0.4,  delay: "3.2s" },
+  ];
   return (
     <div style={{ position: "relative", width: size, height: size, flexShrink: 0, pointerEvents: "none" }}>
-      {[0, 1, 2, 3].map(i => (
+      {/* warm ambient glow */}
+      <div style={{
+        position: "absolute",
+        inset: "20%",
+        borderRadius: "50%",
+        background: `radial-gradient(ellipse at 55% 45%, rgba(184,114,74,.28) 0%, rgba(196,148,58,.12) 40%, transparent 70%)`,
+        animation: `breathe 8s ease-in-out infinite 0.7s`
+      }} />
+      {rings.map((r, i) => (
         <div key={i} style={{
-          position: "absolute", inset: `${i * 10}%`, borderRadius: "50%",
-          border: `${i === 0 ? "1.5px" : "1px"} solid ${i % 2 === 0 ? C.clay : C.dust}`,
-          opacity: i === 0 ? 0.5 : 0.25,
-          animation: `breathe 8s ease-in-out infinite ${i * 1.4}s`
+          position: "absolute",
+          inset: r.pct,
+          borderRadius: "50%",
+          border: `${r.strokeW} solid ${r.strokeColor}`,
+          opacity: r.opacity,
+          animation: `breathe 8s ease-in-out infinite ${r.delay}`
         }} />
       ))}
-      <div style={{ position: "absolute", inset: "42%", borderRadius: "50%", background: C.clay, opacity: .13, animation: "breathe 8s ease-in-out infinite .7s" }} />
     </div>
   );
 }
 
 /* ─── SERVICE CARD ───────────────────────────────── */
-function SvcCard({ icon, title, desc, onClick, borderRight = true, borderBottom = false }) {
+function SvcCard({ icon, title, desc, onClick }) {
   const [hov, setHov] = useState(false);
   return (
-    <Reveal>
-      <div onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-        style={{ padding: "2.6rem 2rem", background: hov ? C.white : C.cream, cursor: "pointer", transition: "all .3s", borderLeft: `3px solid ${hov ? C.clay : "transparent"}`, borderRight: borderRight ? `1px solid ${C.stone}` : "none", borderBottom: borderBottom ? `1px solid ${C.stone}` : "none", height: "100%" }}>
-        <div style={{ fontSize: "1.4rem", marginBottom: ".9rem", color: hov ? C.clay : C.mossMid, transition: "color .3s" }}>{icon}</div>
-        <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.4rem", fontWeight: 400, color: C.moss, marginBottom: ".6rem" }}>{title}</h3>
-        <p style={{ fontSize: ".81rem", lineHeight: 1.75, color: "#5A5040", margin: 0 }}>{desc}</p>
-        <div style={{ marginTop: "1.3rem", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: hov ? C.clay : C.dust, transition: "color .3s" }}>Mehr erfahren →</div>
-      </div>
-    </Reveal>
+    <div onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        padding: "2.6rem 2rem",
+        background: hov ? C.white : C.cream,
+        cursor: "pointer",
+        transition: "background .3s",
+        // inset shadow avoids layout shift
+        boxShadow: hov ? `inset 3px 0 0 ${C.clay}` : "inset 3px 0 0 transparent",
+        height: "100%",
+      }}>
+      <div style={{ fontSize: "1.2rem", marginBottom: ".9rem", color: hov ? C.clay : C.mossMid, transition: "color .3s" }}>{icon}</div>
+      <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.4rem", fontWeight: 400, color: C.moss, marginBottom: ".6rem" }}>{title}</h3>
+      <p style={{ fontSize: ".81rem", lineHeight: 1.75, color: "#5A5040", margin: 0 }}>{desc}</p>
+      <div style={{ marginTop: "1.3rem", fontSize: ".58rem", letterSpacing: ".22em", textTransform: "uppercase", color: hov ? C.clay : C.dust, transition: "color .3s" }}>Mehr erfahren →</div>
+    </div>
   );
 }
 
 /* ═══════════════ HOME PAGE ═══════════════════════ */
 function HomePage({ nav }) {
   useEffect(() => { document.title = "WURZELKIND – Craniosacral Therapie Mattersburg | Marion Sailer-Riegler"; }, []);
+
+  const services = [
+    { icon: "◉", title: "Craniosakrale Energetik", desc: "Sanfte Arbeit am craniosakralen System – spezialisiert auf Neugeborene, Säuglinge und Kleinkinder. Bei Koliken, Schlafproblemen, Stillschwierigkeiten und nach schwierigen Geburten.", id: "cranio" },
+    { icon: "⊹", title: "TCM Ernährungsberatung", desc: "Traditionelle Chinesische Medizin für Babys, Kleinkinder und Mütter. Beikost-Einführung, saisonale Ernährung, Unterstützung bei Verdauungsproblemen.", id: "tcm" },
+    { icon: "⌇", title: "Tuina & Massagetechniken", desc: "Sanfte Tuina-Massage und therapeutisches Schröpfen für Kinder und Erwachsene. Stärkt das Immunsystem, löst Spannungen, fördert den Energiefluss.", id: "tuina" },
+    { icon: "⊙", title: "Schmerzbehandlung G-Well", desc: "Elektrisch-neurologische Schmerztherapie ohne Nadeln. Wirksam bei chronischen Schmerzen, Verspannungen und Narbenentstörung nach Kaiserschnitt.", id: "schmerz" },
+    { icon: "✿", title: "Aromatherapie", desc: "Heilsame ätherische Öle in Bio-Qualität für das gesamte Familiensystem. Bei Unruhe, Schlafproblemen und emotionalen Belastungen.", id: "aroma" },
+    { icon: "◌", title: "Babymassage & Kindermassage", desc: "Ausgebildete Kursleitung. Eltern lernen heilsame Griffe, die sie täglich zu Hause anwenden können — stärkt Bindung und Wohlbefinden.", id: "uebermich" },
+  ];
+
   return (
     <>
-      {/* HERO – v1: two columns, left=text, right=breathing circles */}
+      {/* HERO */}
       <section className="wk-hero-grid" style={{ background: C.moss, position: "relative", overflow: "hidden" }}>
-        {/* ambient glow */}
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 70% 60% at 65% 45%, rgba(184,114,74,.2) 0%, transparent 65%)`, pointerEvents: "none" }} />
-
-        {/* LEFT – text */}
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(4rem,8vw,7rem) clamp(1.4rem,5vw,5rem) clamp(3.5rem,6vw,5.5rem)", position: "relative", zIndex: 2 }}>
           <div style={{ fontSize: ".62rem", letterSpacing: ".35em", textTransform: "uppercase", color: C.dust, marginBottom: "2rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
             <span style={{ display: "inline-block", width: "1.5rem", height: "1px", background: C.dust, opacity: .6 }} />
@@ -237,10 +260,10 @@ function HomePage({ nav }) {
           </div>
         </div>
 
-        {/* RIGHT – breathing circles + corner info */}
+        {/* RIGHT – breathing circles */}
         <div className="wk-hero-right" style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,169,154,.18) 0%, transparent 65%)`, pointerEvents: "none" }} />
-          <BreathingCircle size={380} />
+          <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,169,154,.15) 0%, transparent 65%)`, pointerEvents: "none" }} />
+          <BreathingCircle size={400} />
           <div style={{ position: "absolute", bottom: "2.5rem", right: "2.5rem", fontFamily: "'DM Mono',monospace", fontSize: ".57rem", color: C.mossMid, letterSpacing: ".1em", textAlign: "right", lineHeight: 2.2 }}>
             CST · TCM · Tuina · G-Well · Aroma<br />
             J.N. Berger-Str. 19 · 7210 Mattersburg
@@ -264,7 +287,7 @@ function HomePage({ nav }) {
           </Reveal>
           <Reveal delay={0.15}>
             <div style={{ position: "relative" }}>
-              <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt: 'Ich sehe dich. Ich bin hier.' Warmes Seitenlicht. Leinen oder Holz im Hintergrund. Authentisch, keine Business-Pose." aspect="3/4" />
+              <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt. Warmes Seitenlicht. Authentisch, keine Business-Pose." aspect="3/4" />
               <div style={{ position: "absolute", bottom: "-1.4rem", right: "-1.4rem", background: C.cream, border: `1px solid ${C.stone}`, padding: "1.3rem 1.8rem", maxWidth: "210px" }}>
                 <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".63rem", color: C.clay, marginBottom: ".4rem" }}>27 Jahre</div>
                 <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: ".95rem", color: C.moss, lineHeight: 1.35 }}>Erfahrung mit Kindern & Familien</div>
@@ -278,17 +301,21 @@ function HomePage({ nav }) {
       <section className="wk-section-s" style={{ background: C.cream }}>
         <div className="wk-inner">
           <Reveal><Label n="02" text="Leistungen" /><H2>Was ich für dich und dein Kind tue.</H2></Reveal>
-          <div className="wk-svc-grid" style={{ border: `1px solid ${C.stone}`, marginTop: "3rem" }}>
-            {[
-              { icon: "◉", title: "Craniosakrale Energetik", desc: "Sanfte Arbeit am craniosakralen System – spezialisiert auf Neugeborene, Säuglinge und Kleinkinder. Bei Koliken, Schlafproblemen, Stillschwierigkeiten und nach schwierigen Geburten.", id: "cranio" },
-              { icon: "⊹", title: "TCM Ernährungsberatung", desc: "Traditionelle Chinesische Medizin für Babys, Kleinkinder und Mütter. Beikost-Einführung, saisonale Ernährung, Unterstützung bei Verdauungsproblemen.", id: "tcm" },
-              { icon: "⌇", title: "Tuina & Massagetechniken", desc: "Sanfte Tuina-Massage und therapeutisches Schröpfen für Kinder und Erwachsene. Stärkt das Immunsystem, löst Spannungen, fördert den Energiefluss.", id: "tuina" },
-              { icon: "⚡", title: "Schmerzbehandlung G-Well", desc: "Elektrisch-neurologische Schmerztherapie ohne Nadeln. Wirksam bei chronischen Schmerzen, Verspannungen und Narbenentstörung nach Kaiserschnitt.", id: "schmerz" },
-              { icon: "✿", title: "Aromatherapie", desc: "Heilsame ätherische Öle in Bio-Qualität für das gesamte Familiensystem. Bei Unruhe, Schlafproblemen und emotionalen Belastungen.", id: "aroma" },
-              { icon: "♥", title: "Babymassage & Kindermassage", desc: "Ausgebildete Kursleitung. Eltern lernen heilsame Griffe, die sie täglich zu Hause anwenden können — stärkt Bindung und Wohlbefinden.", id: "uebermich" },
-            ].map((s, i) => (
-              <div key={i} style={{ borderRight: i % 3 !== 2 ? `1px solid ${C.stone}` : "none", borderBottom: i < 3 ? `1px solid ${C.stone}` : "none" }}>
-                <SvcCard {...s} onClick={() => nav(s.id)} borderRight={false} borderBottom={false} />
+          {/* Grid: each cell wraps a SvcCard and handles its own borders */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            border: `1px solid ${C.stone}`,
+            marginTop: "3rem",
+          }}>
+            {services.map((s, i) => (
+              <div key={i} style={{
+                borderRight: i % 3 !== 2 ? `1px solid ${C.stone}` : "none",
+                borderBottom: i < 3 ? `1px solid ${C.stone}` : "none",
+                display: "flex",
+                flexDirection: "column",
+              }}>
+                <SvcCard {...s} onClick={() => nav(s.id)} />
               </div>
             ))}
           </div>
@@ -323,24 +350,51 @@ function HomePage({ nav }) {
           </Reveal>
         </div>
         <div style={{ position: "relative", minHeight: "380px" }}>
-          <ImageSlot label="Behandlungsmoment" desc="Therapeutin bei der Arbeit mit einem Säugling. Oder: Hände auf Babyrücken. Warmes Seitenlicht. Weiches Leinen. Kein Klinikgefühl." fill />
+          <ImageSlot label="Behandlungsmoment" desc="Therapeutin bei der Arbeit mit einem Säugling. Warmes Seitenlicht. Weiches Leinen. Kein Klinikgefühl." fill />
         </div>
       </section>
 
-      {/* CONTACT STRIP */}
-      <section className="wk-strip" style={{ background: C.midnight }}>
-        <div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "2.1rem", color: C.cream, marginBottom: ".4rem" }}>Termin vereinbaren</div>
-          <div style={{ fontSize: ".8rem", color: C.stone }}>Telefonisch oder per WhatsApp · Nach Vereinbarung</div>
-        </div>
-        <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", alignItems: "center" }}>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".78rem", color: C.dust, lineHeight: 2.4 }}>
-            <div>+43 650 363 19 69</div>
-            <div>J.N. Berger-Str. 19 · 7210 Mattersburg</div>
+      {/* ─── KONTAKT STRIP – completely redesigned ─── */}
+      <section style={{ background: C.midnight }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "5.5rem clamp(1.4rem,5vw,5rem)" }}>
+
+          {/* Top row: headline + buttons */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "2.5rem", paddingBottom: "3.5rem", borderBottom: `1px solid rgba(255,255,255,.07)`, marginBottom: "3.5rem" }}>
+            <div>
+              <div style={{ fontSize: ".6rem", letterSpacing: ".3em", textTransform: "uppercase", color: C.clay, marginBottom: "1.4rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
+                <span style={{ display: "inline-block", width: "2rem", height: "1px", background: C.clay, opacity: .6 }} />
+                04 — Kontakt
+              </div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, fontSize: "clamp(2rem,4vw,4rem)", color: C.cream, lineHeight: 1.05, marginBottom: ".8rem" }}>
+                Bereit für den<br /><em style={{ color: C.clay, fontStyle: "italic" }}>ersten Schritt?</em>
+              </h2>
+              <p style={{ fontSize: ".88rem", color: C.stone, lineHeight: 1.85, maxWidth: "420px" }}>
+                Ich beantworte gerne deine Fragen — telefonisch oder per WhatsApp. Kein Formular, kein langer Weg. Nur ein echtes Gespräch.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".8rem", flexShrink: 0 }}>
+              <Btn light variant="solid" onClick={() => window.open("tel:+436503631969")}>Anrufen</Btn>
+              <Btn light variant="outline" onClick={() => window.open("https://wa.me/436503631969")}>WhatsApp</Btn>
+            </div>
           </div>
-          <div style={{ display: "flex", gap: ".8rem" }}>
-            <Btn light variant="solid" onClick={() => window.open("tel:+436503631969")}>Anrufen</Btn>
-            <Btn light variant="outline" onClick={() => window.open("https://wa.me/436503631969")}>WhatsApp</Btn>
+
+          {/* Bottom row: three info blocks */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0" }}>
+            {[
+              { label: "Telefon", main: "+43 650 363 19 69", sub: "Direktkontakt — kein Sekretariat" },
+              { label: "Adresse", main: "J.N. Berger-Str. 19", sub: "7210 Mattersburg · Burgenland" },
+              { label: "Öffnungszeiten", main: "Mo–Fr nach Vereinbarung", sub: "Auch kurzfristige Termine möglich" },
+            ].map((item, i) => (
+              <div key={i} style={{
+                borderLeft: `1px solid rgba(255,255,255,.07)`,
+                paddingLeft: "2.5rem",
+                paddingRight: i < 2 ? "2.5rem" : 0,
+              }}>
+                <div style={{ fontSize: ".57rem", letterSpacing: ".28em", textTransform: "uppercase", color: C.clay, marginBottom: ".8rem" }}>{item.label}</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".82rem", color: C.cream, marginBottom: ".4rem", lineHeight: 1.4 }}>{item.main}</div>
+                <div style={{ fontSize: ".73rem", color: C.mossMid, lineHeight: 1.5 }}>{item.sub}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -381,21 +435,15 @@ function CranioPage({ nav }) {
         <Reveal>
           <Label n="01" text="Du machst nichts falsch." />
           <H2>Die ersten Wochen — magisch und erschöpfend zugleich.</H2>
-          <p style={{ fontSize: ".92rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1.2rem" }}>
-            Wenn das Baby viel weint, schlecht schläft, beim Trinken unruhig ist oder sich stark überstreckt, wächst die Sorge schnell: "Mache ich etwas falsch? Hat mein Kind Schmerzen?"
-          </p>
-          <p style={{ fontSize: ".92rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1.2rem" }}>
-            Du machst nichts falsch. Manchmal hinterlässt der Weg ins Leben — eine rasante Geburt, ein Kaiserschnitt, der Einsatz einer Saugglocke — Spannungen im winzigen Körper. Die craniosacrale Therapie bietet einen sanften, ergänzenden Ansatz.
-          </p>
+          <p style={{ fontSize: ".92rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1.2rem" }}>Wenn das Baby viel weint, schlecht schläft, beim Trinken unruhig ist oder sich stark überstreckt, wächst die Sorge schnell: "Mache ich etwas falsch? Hat mein Kind Schmerzen?"</p>
+          <p style={{ fontSize: ".92rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1.2rem" }}>Du machst nichts falsch. Manchmal hinterlässt der Weg ins Leben — eine rasante Geburt, ein Kaiserschnitt, der Einsatz einer Saugglocke — Spannungen im winzigen Körper.</p>
           <div style={{ padding: "1.5rem 2rem", background: C.cream, borderLeft: `3px solid ${C.clay}`, marginTop: "1rem" }}>
             <h4 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.2rem", color: C.moss, marginBottom: ".5rem" }}>Sicherer Hafen für Mütter</h4>
-            <p style={{ fontSize: ".82rem", color: "#5A5040", lineHeight: 1.75, margin: 0 }}>
-              In meiner Praxis herrscht kein Zeitdruck. Wenn gestillt, gewickelt oder gekuschelt werden muss, machen wir Pause. Die Behandlung findet dort statt, wo dein Baby sich am wohlsten fühlt.
-            </p>
+            <p style={{ fontSize: ".82rem", color: "#5A5040", lineHeight: 1.75, margin: 0 }}>In meiner Praxis herrscht kein Zeitdruck. Wenn gestillt, gewickelt oder gekuschelt werden muss, machen wir Pause.</p>
           </div>
         </Reveal>
         <Reveal delay={0.2}>
-          <ImageSlot label="Behandlungsdetail" desc="Hände der Therapeutin auf Rücken oder Becken eines Säuglings, Leinenunterlage. Keine Gesichter nötig. Wärme, Stille, Präzision." aspect="4/3" />
+          <ImageSlot label="Behandlungsdetail" desc="Hände der Therapeutin auf Rücken oder Becken eines Säuglings, Leinenunterlage." aspect="4/3" />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "1rem" }}>
             {[{ v: "< 5g", l: "Berührungsdruck" }, { v: "45–60", l: "Min. pro Sitzung" }, { v: "2–4", l: "Sitzungen oft ausreichend" }, { v: "ab Wo. 1", l: "Frühestmöglicher Start" }].map(s => (
               <div key={s.v} style={{ padding: "1.3rem 1.2rem", border: `1px solid ${C.stone}`, background: C.cream, textAlign: "center" }}>
@@ -433,7 +481,7 @@ function CranioPage({ nav }) {
       </div></section>
       <div className="wk-split">
         <div style={{ position: "relative", minHeight: "380px" }}>
-          <ImageSlot label="Mutter-Kind Moment" desc="Entspannte Mutter hält ruhiges Baby nach der Behandlung. Echte Erleichterung. Weiches Fensterlicht. Mood: Ankommen, Durchatmen." fill />
+          <ImageSlot label="Mutter-Kind Moment" desc="Entspannte Mutter hält ruhiges Baby nach der Behandlung. Echte Erleichterung." fill />
         </div>
         <div style={{ background: C.moss, display: "flex", alignItems: "center", padding: "clamp(2.5rem,5vw,5rem)" }}>
           <Reveal><Label n="03" text="Deine Fragen" light /><H2 light>Ehrliche Antworten.</H2></Reveal>
@@ -475,7 +523,7 @@ function TCMPage() {
             <Lead light>Die Energie der Mitte stärken.</Lead>
             <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.85, maxWidth: "480px" }}>Nach den Prinzipien der TCM kostet die Geburt viel Qi und Blut. Eine angepasste Ernährung hilft Müttern, wieder in ihre Kraft zu kommen — und dem Kind, eine starke Verdauungsmitte aufzubauen.</p>
           </div>
-          <ImageSlot label="TCM Kräuter & Gewürze" desc="Wärmende Kräuter, Ingwer, Kardamom, kleine Schälchen auf Holz. Warm beleuchtet. Erdfarben. Nahaufnahme mit Bokeh." aspect="4/5" />
+          <ImageSlot label="TCM Kräuter & Gewürze" desc="Wärmende Kräuter, Ingwer, Kardamom, kleine Schälchen auf Holz. Warm beleuchtet. Erdfarben." aspect="4/5" />
         </div>
       </section>
       <section className="wk-section"><div className="wk-inner wk-2col">
@@ -533,10 +581,10 @@ function TuinaPage() {
           </div>
           <Note><strong>Ärztliche Diagnose zuerst.</strong> Kinder-Tuina ist eine ergänzende Methode — kein Ersatz für medizinische Behandlung.</Note>
         </Reveal>
-        <Reveal delay={0.2}><ImageSlot label="Tuina Behandlung" desc="Sanfte Massage an einem Kleinkind. Hände der Therapeutin auf Rücken oder Bauch. Warmes Licht. Kind entspannt. Elternteil im Hintergrund. Wärme & Vertrauen." aspect="4/5" /></Reveal>
+        <Reveal delay={0.2}><ImageSlot label="Tuina Behandlung" desc="Sanfte Massage an einem Kleinkind. Hände der Therapeutin auf Rücken oder Bauch. Warmes Licht. Kind entspannt." aspect="4/5" /></Reveal>
       </div>
       <div className="wk-inner wk-2col" style={{ marginTop: "4rem", paddingTop: "4rem", borderTop: `1px solid ${C.stone}` }}>
-        <Reveal><ImageSlot label="Schröpfgläser Detail" desc="Silikon-Schröpfköpfe auf Holzunterlage oder neben Massageöl. Warme Erdtöne. Handwerkliches Werkzeug mit Tradition. Makro-Nahaufnahme." aspect="4/3" /></Reveal>
+        <Reveal><ImageSlot label="Schröpfgläser Detail" desc="Silikon-Schröpfköpfe auf Holzunterlage. Warme Erdtöne. Makro-Nahaufnahme." aspect="4/3" /></Reveal>
         <Reveal delay={0.2}>
           <Label n="02" text="Therapeutisches Schröpfen" />
           <H2>Tiefe Entlastung für Mütter</H2>
@@ -570,7 +618,7 @@ function SchmerzPage() {
         <Reveal>
           <Label n="01" text="Was ist der G-Well Pointer" />
           <H2>Akupunkturpunkte — ohne Einstich</H2>
-          <p style={{ fontSize: ".9rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1.5rem" }}>Der G-Well Pointer lokalisiert Akupunkturpunkte und Triggerpunkte durch Messung des Hautwiderstands und stimuliert sie mit sanften mikroelektrischen Impulsen — vollständig schmerzfrei, vom Körper als leichtes Kribbeln wahrgenommen.</p>
+          <p style={{ fontSize: ".9rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1.5rem" }}>Der G-Well Pointer lokalisiert Akupunkturpunkte und Triggerpunkte durch Messung des Hautwiderstands und stimuliert sie mit sanften mikroelektrischen Impulsen — vollständig schmerzfrei.</p>
           {[{ n: "01", t: "Absolut schmerzfrei", d: "Ideal für alle, die Angst vor Nadeln haben." }, { n: "02", t: "Narbenentstörung nach Kaiserschnitt", d: "Besonders wirksam bei Narbengewebe — relevant für Mütter nach Kaiserschnitt." }, { n: "03", t: "Direkte Entspannung", d: "Wirkung bei stark verspanntem Nacken- und Schulterbereich." }].map(s => (
             <div key={s.n} style={{ padding: "1.1rem 1.4rem", background: C.cream, borderLeft: `3px solid ${C.clay}`, marginBottom: ".8rem" }}>
               <div style={{ fontSize: ".58rem", letterSpacing: ".2em", textTransform: "uppercase", color: C.clay, marginBottom: ".2rem" }}>Vorteil {s.n}</div>
@@ -579,7 +627,7 @@ function SchmerzPage() {
             </div>
           ))}
         </Reveal>
-        <Reveal delay={0.2}><ImageSlot label="G-Well Pointer" desc="G-Well Pointer Gerät in der Hand der Therapeutin. Warmer Hintergrund. Präzision und Sicherheit. Handwerklich-kompetent." aspect="4/5" /></Reveal>
+        <Reveal delay={0.2}><ImageSlot label="G-Well Pointer" desc="G-Well Pointer Gerät in der Hand der Therapeutin. Warmer Hintergrund. Präzision und Sicherheit." aspect="4/5" /></Reveal>
       </div></section>
     </>
   );
@@ -608,7 +656,7 @@ function AromaPage() {
             <Lead light>Der direkte Weg zum limbischen System.</Lead>
             <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.85, maxWidth: "460px" }}>Düfte wirken unmittelbar auf jenen Teil des Gehirns, der für Emotionen und Erinnerungen zuständig ist. Ich nutze Aromatherapie als ergänzende Maßnahme zur craniosakralen Therapie.</p>
           </div>
-          <ImageSlot label="Ätherische Öle" desc="Hochwertige Öl-Flacons auf Holzunterlage, umgeben von Kräutern. Warme Töne: Bernstein, Glas, Terrakotta. Weiches Fensterlicht. Keine Spa-Ästhetik." aspect="4/5" />
+          <ImageSlot label="Ätherische Öle" desc="Hochwertige Öl-Flacons auf Holzunterlage, umgeben von Kräutern. Warme Töne: Bernstein, Glas, Terrakotta." aspect="4/5" />
         </div>
       </section>
       <section className="wk-section"><div className="wk-inner wk-2col">
@@ -674,7 +722,7 @@ function UeberMichPage() {
           <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.85, maxWidth: "440px" }}>Diplomierte Gesundheits- und Krankenpflegerin. 9 Jahre Unfall-OP, 10 Jahre Leiterin Kinderstation KH Eisenstadt. Heute in eigener Praxis in Mattersburg.</p>
         </div>
         <div style={{ position: "relative", minHeight: "420px" }}>
-          <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt: 'Ich sehe dich. Ich bin hier.' Warmes Seitenlicht. Authentisch, keine Business-Pose." fill />
+          <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt. Warmes Seitenlicht. Authentisch." fill />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(58,70,54,.35) 0%,transparent 40%)", pointerEvents: "none" }} />
         </div>
       </section>
@@ -705,12 +753,12 @@ function UeberMichPage() {
           <Label n="03" text="Meine Haltung" light />
           <H2 light>Weder Wunderheilerin noch Besserwisserin.</H2>
           <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95, marginBottom: "1.3rem" }}>Ich nehme keine Rolle ein, die ich nicht erfüllen kann. Craniosacrale Therapie heilt keine Diagnosen — sie unterstützt die Selbstheilungskräfte des Körpers.</p>
-          <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95 }}>Ich spreche beide Sprachen: die der erschöpften Mutter um 3 Uhr nachts und die des skeptischen Kinderarztes. Ich bin keine Heilerin. Ich bin eine Übersetzerin: zwischen dem, was das Baby zeigt, und dem, was die Eltern verstehen müssen.</p>
+          <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.95 }}>Ich spreche beide Sprachen: die der erschöpften Mutter um 3 Uhr nachts und die des skeptischen Kinderarztes. Ich bin keine Heilerin. Ich bin eine Übersetzerin.</p>
         </Reveal>
       </div></section>
       <div className="wk-split">
         <div style={{ position: "relative", minHeight: "380px" }}>
-          <ImageSlot label="Praxisraum Wurzelkind" desc="Behandlungsraum: warm, aufgeräumt, einladend. Natürliche Materialien: Holz, Leinen, Ton. Gedämpftes Licht. Kein weißer Klinikraum." fill />
+          <ImageSlot label="Praxisraum Wurzelkind" desc="Behandlungsraum: warm, aufgeräumt, einladend. Natürliche Materialien: Holz, Leinen, Ton." fill />
         </div>
         <div style={{ background: C.cream, padding: "clamp(2.5rem,5vw,5rem)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <Reveal>
