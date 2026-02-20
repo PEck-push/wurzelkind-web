@@ -252,6 +252,27 @@ function SvcCard({ icon, title, desc, onClick }) {
   );
 }
 
+/* ─── OIL CARD (AROMA) ───────────────────────────── */
+function OilCard({ name, lat, anw, kind }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        padding: "2.8rem 2.5rem",
+        background: hov ? C.white : "transparent",
+        transition: "background .3s",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}>
+      <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.7rem", color: C.moss, marginBottom: ".3rem" }}>{name}</div>
+      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".65rem", color: C.clay, marginBottom: "1.2rem", fontStyle: "italic" }}>{lat}</div>
+      <p style={{ fontSize: ".85rem", color: "#5A5040", margin: "0 0 1.2rem", lineHeight: 1.6, flexGrow: 1 }}>{anw}</p>
+      <div style={{ fontSize: ".65rem", color: kind.includes("⚠") ? C.clayDeep : C.mossMid }}>{kind}</div>
+    </div>
+  );
+}
+
 /* ═══════════════ HOME PAGE ═══════════════════════ */
 function HomePage({ nav }) {
   useEffect(() => { document.title = "WURZELKIND – Craniosacral Therapie Mattersburg | Marion Sailer-Riegler"; }, []);
@@ -660,7 +681,7 @@ function AromaPage() {
     { name: "Lavendel", lat: "Lavandula angustifolia", anw: "Schlaf, Beruhigung, Wunden", kind: "✓ ab 3. Monat" },
     { name: "Kamille blau", lat: "Matricaria recutita", anw: "Entzündungen, Zahnen, Haut", kind: "✓ ab 3. Monat" },
     { name: "Mandarine", lat: "Citrus reticulata", anw: "Stimmungsaufhellung, Verdauung", kind: "✓ ab 3. Monat" },
-    { name: "Frankincense", lat: "Boswellia sacra", anw: "Atemwege, Immunsystem", kind: "✓ ab 6. Monat" },
+    { name: "Frankincense", lat: "Boswellia sacra", anw: "Atemwege, Immunsystem, Tiefe", kind: "✓ ab 6. Monat" },
     { name: "Eukalyptus", lat: "Eucalyptus radiata", anw: "Erkältung, Atemwege", kind: "⚠ erst ab 3 Jahren" },
     { name: "Rose", lat: "Rosa damascena", anw: "Emotionale Balance, Mama-Pflege", kind: "✓ für Mütter" },
   ];
@@ -669,48 +690,59 @@ function AromaPage() {
       <section style={{ background: C.moss }}>
         <div className="wk-aroma-hero">
           <div>
-            <Tag>Ausnahmslos naturreiner Öle · Bio-Qualität</Tag>
+            <Tag>Ausnahmslos naturreine Öle · Bio-Qualität</Tag>
             <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.5rem,4.5vw,5.5rem)", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "1.4rem" }}>
-              Die Kraft<br />der <em style={{ color: C.clay }}>Düfte.</em>
+              Was der Körper<br />riecht, <em style={{ color: C.clay }}>fühlt er.</em>
             </h1>
-            <Lead light>Der direkte Weg zum limbischen System.</Lead>
-            <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.85, maxWidth: "460px" }}>Düfte wirken unmittelbar auf jenen Teil des Gehirns, der für Emotionen und Erinnerungen zuständig ist. Ich nutze Aromatherapie als ergänzende Maßnahme zur craniosakralen Therapie.</p>
+            <p style={{ color: C.stone, fontSize: ".9rem", lineHeight: 1.85, maxWidth: "480px" }}>
+              Ätherische Öle wirken nicht nur über den Geruchssinn – sie interagieren direkt mit dem limbischen System, dem Zentrum für Emotionen und Gedächtnis, und über die Haut mit dem Organismus. In der Arbeit mit Babys und jungen Familien sind sie ein sanftes, hochwirksames Werkzeug.
+            </p>
           </div>
           <ImageSlot label="Ätherische Öle" desc="Hochwertige Öl-Flacons auf Holzunterlage, umgeben von Kräutern. Warme Töne: Bernstein, Glas, Terrakotta." aspect="4/5" />
         </div>
       </section>
+      
       <section className="wk-section"><div className="wk-inner wk-2col">
         <Reveal>
-          <Label n="01" text="Für Babys – weniger ist mehr" />
-          <H2>Sanft. Verdünnt. Kindsicher.</H2>
-          <p style={{ fontSize: ".9rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1rem" }}>Gerade bei Babys verwende ich hochverdünnte, milde Öle — wie Rose, Kamille oder Lavendel — um Unruhe zu lindern und das Einschlafen zu erleichtern.</p>
-          <Note><strong>Achtung:</strong> Eukalyptus, Pfefferminze und viele verbreitete Öle sind für Kinder unter 3 Jahren kontraindiziert. Nie ohne Fachberatung anwenden.</Note>
+          <Label n="01" text="Was ist Aromatherapie" />
+          <H2>Mehr als nur Duft</H2>
+          <p style={{ fontSize: ".9rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1rem" }}>
+            Therapeutische Aromatherapie unterscheidet sich grundlegend von Raumbeduftung oder Wellness-Düften. Es werden hochwertige, reine ätherische Öle in therapeutischen Konzentrationen eingesetzt – verdünnt in Trägerölen, als Inhalation, in Massagen oder als Kompressen.
+          </p>
+          <p style={{ fontSize: ".9rem", lineHeight: 1.9, color: "#5A5040", marginBottom: "1rem" }}>
+            Für Babys und Kleinkinder ist besondere Vorsicht bei Auswahl und Verdünnung geboten. Marion Sailer-Riegler verfügt über eine fundierte Ausbildung in therapeutischer Aromatherapie und kennt die spezifischen Sicherheitsgrenzen für jede Altersgruppe.
+          </p>
+          <Note><strong>Nicht alle Öle sind für Babys geeignet.</strong> Eukalyptus, Pfefferminze und viele andere verbreitete Öle sind für Kinder unter 3 Jahren kontraindiziert. Bitte nie ohne Fachberatung anwenden.</Note>
         </Reveal>
         <Reveal delay={0.2}>
-          <Label n="02" text="Für Mütter" />
-          <H2>Stärken, erden, durchatmen.</H2>
-          {[{ t: "Schlafprobleme", d: "Sanfte Einschlaf-Routinen für die ganze Familie." }, { t: "Postpartale Erschöpfung", d: "Stärkende und erdende Öle — als tägliches Ritual." }, { t: "Emotionale Balance", d: "Innere Unruhe, Stimmungsschwankungen, Stress." }, { t: "Zahnen & Verdauung", d: "Sanfte Bauchmassage mit verdünnten Ölen nach TCM-Punkten." }].map((s, i) => (
-            <div key={i} style={{ padding: ".9rem 0", borderBottom: `1px solid ${C.stone}` }}>
+          <Label n="02" text="Anwendungsbereiche" />
+          <H2>Wann Aromatherapie hilft</H2>
+          {[
+            { t: "Schlafprobleme", d: "Sanfte Einschlaf-Routinen mit bewährten Ölen für die ganze Familie." },
+            { t: "Erkältungsinfekte", d: "Atemwegsunterstützung durch Inhalation und Einreibung – kindgerecht und wirksam." },
+            { t: "Emotionale Balance der Mutter", d: "Postpartale Erschöpfung, Stimmungsschwankungen, Stress – Öle als stärkendes Ritual." },
+            { t: "Hautpflege & Wundbehandlung", d: "Heilende Wirkung auf Wundheilung, Narben, gereizte Babyhaut." },
+            { t: "Zahnen & Verdauungsbeschwerden", d: "Sanfte Bauchmassage mit verdünnten Ölen nach TCM-Punkten." }
+          ].map((s, i) => (
+            <div key={i} style={{ padding: ".9rem 0", borderBottom: i === 4 ? "none" : `1px solid ${C.stone}` }}>
               <div style={{ fontSize: ".68rem", letterSpacing: ".15em", textTransform: "uppercase", color: C.clay, marginBottom: ".2rem" }}>{s.t}</div>
               <p style={{ fontSize: ".82rem", color: "#5A5040", margin: 0, lineHeight: 1.75 }}>{s.d}</p>
             </div>
           ))}
         </Reveal>
       </div></section>
+
       <section className="wk-section-s" style={{ background: C.cream }}><div className="wk-inner">
-        <Reveal><Label n="03" text="Sicherheitsinfo" /><H2>Welche Öle für welches Alter</H2></Reveal>
-        <div className="wk-grid-multi" style={{ marginTop: "2rem" }}>
+        <Reveal><Label n="03" text="Ausgewählte Öle & Sicherheitsinfo" /><H2>Welche Öle für welches Alter</H2></Reveal>
+        
+        <div className="wk-grid-multi" style={{ marginTop: "3rem" }}>
           {oils.map((o, i) => (
-            <Reveal key={i} delay={i * 0.07} style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ padding: "1.8rem 1.4rem", flexGrow: 1 }}>
-                <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.45rem", color: C.moss, marginBottom: ".2rem" }}>{o.name}</div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".57rem", color: C.clay, marginBottom: ".7rem", fontStyle: "italic" }}>{o.lat}</div>
-                <p style={{ fontSize: ".78rem", color: "#5A5040", margin: "0 0 .7rem", lineHeight: 1.6 }}>{o.anw}</p>
-                <div style={{ fontSize: ".62rem", color: o.kind.includes("⚠") ? C.clayDeep : C.mossMid }}>{o.kind}</div>
-              </div>
+            <Reveal key={i} delay={i * 0.07} style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+              <OilCard {...o} />
             </Reveal>
           ))}
         </div>
+        
       </div></section>
     </>
   );
