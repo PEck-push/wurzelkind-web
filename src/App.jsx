@@ -158,7 +158,7 @@ function Lead({ children, light = false }) {
   return <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(1.1rem,1.7vw,1.6rem)", fontWeight: 300, lineHeight: 1.5, color: light ? C.stone : C.moss, marginBottom: "1.6rem" }}>{children}</p>;
 }
 function Tag({ children }) {
-  return <span style={{ display: "inline-block", fontSize: ".6rem", letterSpacing: ".2em", textTransform: "uppercase", background: C.clay, color: C.white, padding: ".28rem .7rem", borderRadius: "2px", marginBottom: "1.4rem" }}>{children}</span>;
+  return <span style={{ display: "inline-block", alignSelf: "flex-start", width: "max-content", maxWidth: "100%", fontSize: ".6rem", letterSpacing: ".2em", textTransform: "uppercase", background: C.clay, color: C.white, padding: ".28rem .7rem", borderRadius: "2px", marginBottom: "1.4rem" }}>{children}</span>;
 }
 function Note({ children }) {
   return <div style={{ background: "rgba(184,114,74,.08)", borderLeft: `3px solid ${C.clay}`, padding: "1.3rem 1.8rem", margin: "1.8rem 0", fontSize: ".82rem", lineHeight: 1.7, color: "#4A3828" }}>{children}</div>;
@@ -622,7 +622,7 @@ function TuinaPage() {
           </div>
           <Note><strong>Ärztliche Diagnose zuerst.</strong> Kinder-Tuina ist eine ergänzende Methode — kein Ersatz für medizinische Behandlung.</Note>
         </Reveal>
-        <Reveal delay={0.2}><ImageSlot label="Tuina Behandlung" desc="Sanfte Massage an einem Kleinkind. Hände der Therapeutin auf Rücken oder Bauch. Warmes Licht. Kind entspannt." aspect="4/5" /></Reveal>
+        <Reveal delay={0.2}><ImageSlot label="Tuina Behandlung" desc="Sanfte Massage an einem Kleinkind. Hände der Therapeutin auf Rücken oder Bauch. Warmes Licht. Kind entspannt." aspect="1/1" /></Reveal>
       </div>
       <div className="wk-inner wk-2col" style={{ marginTop: "4rem", paddingTop: "4rem", borderTop: `1px solid ${C.stone}` }}>
         <Reveal><ImageSlot label="Schröpfgläser Detail" desc="Silikon-Schröpfköpfe auf Holzunterlage. Warme Erdtöne. Makro-Nahaufnahme." aspect="4/3" /></Reveal>
@@ -735,13 +735,16 @@ function AromaPage() {
       <section className="wk-section-s" style={{ background: C.cream }}><div className="wk-inner">
         <Reveal><Label n="03" text="Ausgewählte Öle & Sicherheitsinfo" /><H2>Welche Öle für welches Alter</H2></Reveal>
         
-        <div className="wk-grid-multi" style={{ marginTop: "3rem" }}>
-          {oils.map((o, i) => (
-            <Reveal key={i} delay={i * 0.07} style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-              <OilCard {...o} />
-            </Reveal>
-          ))}
-        </div>
+        {/* Die Reveal-Animation sitzt jetzt als sicherer Container um den gesamten Grid, damit hover-Rahmen intakt bleiben */}
+        <Reveal>
+          <div className="wk-grid-multi" style={{ marginTop: "3rem" }}>
+            {oils.map((o, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column" }}>
+                <OilCard {...o} />
+              </div>
+            ))}
+          </div>
+        </Reveal>
         
       </div></section>
     </>
