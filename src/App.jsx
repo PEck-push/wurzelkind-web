@@ -277,7 +277,7 @@ function OilCard({ name, lat, anw, kind }) {
 
 /* ═══════════════ HOME PAGE ═══════════════════════ */
 function HomePage({ nav }) {
-  useEffect(() => { document.title = "WURZELKIND – Craniosacral Therapie Mattersburg | Marion Sailer-Riegler"; }, []);
+  useEffect(() => { document.title = "GSUNDHEITSWERKSTATT – Craniosacral Therapie Mattersburg | Marion Sailer-Riegler"; }, []);
 
   const services = [
     { icon: "◉", title: "Craniosakrale Energetik", desc: "Sanfte Arbeit am craniosakralen System – spezialisiert auf Neugeborene, Säuglinge und Kleinkinder. Bei Koliken, Schlafproblemen, Stillschwierigkeiten und nach schwierigen Geburten.", id: "cranio" },
@@ -335,7 +335,7 @@ function HomePage({ nav }) {
               Jedes Kind kommt mit einer Geschichte auf die Welt — dem Weg durch den Geburtskanal, dem ersten Atemzug, den ersten Stunden. Manche dieser Geschichten hinterlassen Spuren: Verspannungen, Unruhe, Schlafprobleme, Trinkschwierigkeiten.
             </p>
             <p style={{ fontSize: ".93rem", lineHeight: 1.95, color: "#5A5040", marginBottom: "2rem" }}>
-              <strong style={{ color: C.clay }}>Wurzelkind</strong> steht für das Wissen, dass ein Kind, das sich in seinem Körper wohlfühlt, tiefer Wurzeln schlägt — sicherer bondet, besser schläft, freier wächst.
+              <strong style={{ color: C.clay }}>Gsundheitswerkstatt</strong> steht für das Wissen, dass ein Kind, das sich in seinem Körper wohlfühlt, tiefer Wurzeln schlägt — sicherer bondet, besser schläft, freier wächst.
             </p>
             <Btn onClick={() => nav("uebermich")}>Mehr über mich</Btn>
           </Reveal>
@@ -445,7 +445,7 @@ function HomePage({ nav }) {
 
 /* ═══════════════ CRANIO PAGE ═════════════════════ */
 function CranioPage({ nav }) {
-  useEffect(() => { document.title = "Craniosakrale Energetik für Babys & Neugeborene | Wurzelkind Mattersburg"; }, []);
+  useEffect(() => { document.title = "Craniosakrale Energetik für Babys & Neugeborene | Gsundheitswerkstatt Mattersburg"; }, []);
   const faqs = [
     { q: "Ist das wirklich sicher für mein Neugeborenes?", a: "Ja. Die craniosacrale Therapie arbeitet mit einem Berührungsdruck von weniger als fünf Gramm — kaum mehr als das Gewicht einer Münze. Neugeborene reagieren besonders feinfühlig auf diese Berührungsqualität. In über 27 Jahren klinischer Erfahrung ist Marion Sailer-Riegler auf diese Zartheit spezialisiert." },
     { q: "Mein Kind ist erst 3 Wochen alt. Ist es schon zu früh?", a: "Nein – im Gegenteil. Je früher Spannungen aus der Geburt gelöst werden können, desto leichter fällt der Start ins Leben. Viele Familien kommen bereits in der zweiten Lebenswoche." },
@@ -555,7 +555,7 @@ function CranioPage({ nav }) {
 
 /* ═══════════════ TCM PAGE ════════════════════════ */
 function TCMPage() {
-  useEffect(() => { document.title = "TCM Ernährungsberatung | Wurzelkind Mattersburg"; }, []);
+  useEffect(() => { document.title = "TCM Ernährungsberatung | Gsundheitswerkstatt Mattersburg"; }, []);
   return (
     <>
       <section style={{ background: C.moss }}>
@@ -600,7 +600,7 @@ function TCMPage() {
 
 /* ═══════════════ TUINA PAGE ══════════════════════ */
 function TuinaPage() {
-  useEffect(() => { document.title = "Kinder-Tuina & Massagetechniken | Wurzelkind Mattersburg"; }, []);
+  useEffect(() => { document.title = "Kinder-Tuina & Massagetechniken | Gsundheitswerkstatt Mattersburg"; }, []);
   return (
     <>
       <section style={{ background: C.moss, padding: "clamp(6rem,10vw,9rem) clamp(1.4rem,5vw,5rem) 5rem" }}>
@@ -647,7 +647,7 @@ function TuinaPage() {
 
 /* ═══════════════ G-WELL PAGE ═════════════════════ */
 function SchmerzPage() {
-  useEffect(() => { document.title = "Schmerzbehandlung G-Well Pointer | Wurzelkind Mattersburg"; }, []);
+  useEffect(() => { document.title = "Schmerzbehandlung G-Well Pointer | Gsundheitswerkstatt Mattersburg"; }, []);
   return (
     <>
       <section style={{ background: C.moss, padding: "clamp(6rem,10vw,9rem) clamp(1.4rem,5vw,5rem) 5rem" }}>
@@ -680,7 +680,7 @@ function SchmerzPage() {
 
 /* ═══════════════ AROMA PAGE ══════════════════════ */
 function AromaPage() {
-  useEffect(() => { document.title = "Aromatherapie für Familien & Babys | Wurzelkind Mattersburg"; }, []);
+  useEffect(() => { document.title = "Aromatherapie für Familien & Babys | Gsundheitswerkstatt Mattersburg"; }, []);
   const oils = [
     { name: "Lavendel", lat: "Lavandula angustifolia", anw: "Schlaf, Beruhigung, Wunden", kind: "✓ ab 3. Monat" },
     { name: "Kamille blau", lat: "Matricaria recutita", anw: "Entzündungen, Zahnen, Haut", kind: "✓ ab 3. Monat" },
@@ -757,7 +757,7 @@ function AromaPage() {
 
 /* ═══════════════ ÜBER MICH PAGE ══════════════════ */
 function UeberMichPage() {
-  useEffect(() => { document.title = "Über Marion Sailer-Riegler | Wurzelkind Mattersburg"; }, []);
+  useEffect(() => { document.title = "Über Marion Sailer-Riegler | Gsundheitswerkstatt Mattersburg"; }, []);
   const quals = [
     { t: "DGKP – Diplomierte Gesundheits- und Krankenpflegerin", s: "9 Jahre Unfall-OP-Ambulanz · 10 Jahre Leiterin Kinderstation KH Eisenstadt" },
     { t: "Cranio Sacral Energetikerin", s: "Cranio-Schule Prett · Graz" },
@@ -817,12 +817,12 @@ function UeberMichPage() {
       </div></section>
       <div className="wk-split">
         <div style={{ position: "relative", minHeight: "380px" }}>
-          <ImageSlot label="Praxisraum Wurzelkind" desc="Behandlungsraum: warm, aufgeräumt, einladend. Natürliche Materialien: Holz, Leinen, Ton." fill />
+          <ImageSlot label="Praxisraum Gsundheitswerkstatt" desc="Behandlungsraum: warm, aufgeräumt, einladend. Natürliche Materialien: Holz, Leinen, Ton." fill />
         </div>
         <div style={{ background: C.cream, padding: "clamp(2.5rem,5vw,5rem)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <Reveal>
             <Label n="04" text="Kontakt & Anfahrt" />
-            <H2>Praxis Wurzelkind</H2>
+            <H2>Praxis Gsundheitswerkstatt</H2>
             <div style={{ fontFamily: "'DM Mono',monospace", fontSize: ".8rem", lineHeight: 2.8, color: C.ink, marginBottom: "2rem" }}>
               <div>Marion Sailer-Riegler</div>
               <div>J.N. Berger-Str. 19 · 7210 Mattersburg</div>
@@ -857,7 +857,7 @@ function Navbar({ current, nav }) {
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, background: scrolled || open ? "rgba(253,250,245,.97)" : "rgba(253,250,245,.88)", backdropFilter: "blur(14px)", borderBottom: `1px solid rgba(184,114,74,${scrolled ? .2 : .08})`, transition: "all .3s" }}>
       <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 clamp(1.2rem,3vw,2.5rem)", height: "70px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <button onClick={() => go("home")} style={{ background: "none", border: "none", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(.85rem,2vw,1rem)", letterSpacing: ".28em", textTransform: "uppercase", color: C.clay, fontWeight: 500 }}>WURZELKIND</button>
+        <button onClick={() => go("home")} style={{ background: "none", border: "none", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(.85rem,2vw,1rem)", letterSpacing: ".15em", textTransform: "uppercase", color: C.clay, fontWeight: 500 }}>GSUNDHEITSWERKSTATT</button>
         <div className="wk-nav-desk">
           {items.map(n => (
             <button key={n.id} onClick={() => go(n.id)}
@@ -892,7 +892,7 @@ function Footer({ nav }) {
     <footer style={{ background: C.midnight, padding: "4.5rem clamp(1.4rem,5vw,5rem) 2.5rem" }}>
       <div className="wk-footer-g" style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.9rem", color: C.cream, marginBottom: "1rem", letterSpacing: ".18em" }}>WURZEL<span style={{ color: C.clay }}>KIND</span></div>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.9rem", color: C.cream, marginBottom: "1rem", letterSpacing: ".1em" }}>GSUNDHEITS<span style={{ color: C.clay }}>WERKSTATT</span></div>
           <p style={{ fontSize: ".8rem", lineHeight: 1.85, color: "rgba(224,213,196,.7)", maxWidth: "300px" }}>Spezialisierte Craniosacral Therapie für Säuglinge und Kleinkinder. TCM · Tuina · G-Well · Aromatherapie. Mattersburg, Burgenland.</p>
         </div>
         <div>
@@ -918,7 +918,7 @@ function Footer({ nav }) {
         </div>
       </div>
       <div style={{ maxWidth: "1200px", margin: "2.5rem auto 0", paddingTop: "1.8rem", borderTop: "1px solid rgba(255,255,255,.06)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", fontSize: ".58rem", color: "#444", letterSpacing: ".1em" }}>
-        <span>© 2025 Wurzelkind · Marion Sailer-Riegler · 7210 Mattersburg · Burgenland</span>
+        <span>© 2025 Gsundheitswerkstatt · Marion Sailer-Riegler · 7210 Mattersburg · Burgenland</span>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           <span style={{ cursor: "pointer" }}>Impressum</span>
           <span style={{ cursor: "pointer" }}>Datenschutz</span>
