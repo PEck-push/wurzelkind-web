@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 const C = {
   cream:"#F4EEE3", stone:"#E0D5C4", clay:"#B8724A", clayDeep:"#8C4E2A",
-  moss:"#3A4636", mossMid:"#5A6855", dust:"#C8A99A", midnight:"#1E2018",
+  moss:"#374732", mossMid:"#5A6855", dust:"#C8A99A", midnight:"#1E2018",
   white:"#FDFAF5", ink:"#2A2318"
 };
 
@@ -291,34 +291,36 @@ function HomePage({ nav }) {
   return (
     <>
       {/* HERO */}
-      <section className="wk-hero-grid" style={{ background: C.moss, position: "relative", overflow: "hidden" }}>
+      <section style={{ background: C.moss, position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 70% 60% at 65% 45%, rgba(184,114,74,.2) 0%, transparent 65%)`, pointerEvents: "none" }} />
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(4rem,8vw,7rem) clamp(1.4rem,5vw,5rem) clamp(3.5rem,6vw,5.5rem)", position: "relative", zIndex: 2 }}>
-          <div style={{ fontSize: ".62rem", letterSpacing: ".35em", textTransform: "uppercase", color: C.dust, marginBottom: "2rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
-            <span style={{ display: "inline-block", width: "1.5rem", height: "1px", background: C.dust, opacity: .6 }} />
-            Ganzheitliche Praxis · Mattersburg
+        <div className="wk-hero-grid" style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(4rem,8vw,7rem) clamp(1.4rem,5vw,5rem) clamp(3.5rem,6vw,5.5rem)" }}>
+            <div style={{ fontSize: ".62rem", letterSpacing: ".35em", textTransform: "uppercase", color: C.dust, marginBottom: "2rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
+              <span style={{ display: "inline-block", width: "1.5rem", height: "1px", background: C.dust, opacity: .6 }} />
+              Mattersburg · Burgenland · Österreich
+            </div>
+            <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "2rem", fontSize: "clamp(2.5rem,5.5vw,6.8rem)" }}>
+              Dein Kind darf sich<br />
+              <em style={{ color: C.clay, fontStyle: "italic" }}>wohlfühlen</em><br />
+              <span style={{ fontSize: "clamp(2rem,3.8vw,4.6rem)", color: C.stone, fontStyle: "italic" }}>— und du auch.</span>
+            </h1>
+            <p style={{ fontSize: ".9rem", color: C.stone, lineHeight: 1.9, maxWidth: "400px", marginBottom: "2.8rem" }}>
+              Spezialisierte Craniosacral Therapie für Säuglinge und Kleinkinder. Marion Sailer-Riegler, DGKP — Mattersburg.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <Btn light variant="solid" onClick={() => window.open("tel:+436503631969")}>Termin anfragen</Btn>
+              <Btn light variant="outline" onClick={() => nav("cranio")}>Zur Cranio Therapie</Btn>
+            </div>
           </div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "2rem", fontSize: "clamp(2.5rem,5.5vw,6.8rem)" }}>
-            Dein Kind darf sich<br />
-            <em style={{ color: C.clay, fontStyle: "italic" }}>wohlfühlen</em><br />
-            <span style={{ fontSize: "clamp(2rem,3.8vw,4.6rem)", color: C.stone, fontStyle: "italic" }}>— und du auch.</span>
-          </h1>
-          <p style={{ fontSize: ".9rem", color: C.stone, lineHeight: 1.9, maxWidth: "400px", marginBottom: "2.8rem" }}>
-            Spezialisierte Craniosacral Therapie für Säuglinge und Kleinkinder. Marion Sailer-Riegler, DGKP — Mattersburg.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <Btn light variant="solid" onClick={() => window.open("tel:+436503631969")}>Termin anfragen</Btn>
-            <Btn light variant="outline" onClick={() => nav("cranio")}>Zur Cranio Therapie</Btn>
-          </div>
-        </div>
 
-        {/* RIGHT – breathing circles */}
-        <div className="wk-hero-right" style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,169,154,.15) 0%, transparent 65%)`, pointerEvents: "none" }} />
-          <BreathingCircle size={400} />
-          <div style={{ position: "absolute", bottom: "2.5rem", right: "2.5rem", fontFamily: "'DM Mono',monospace", fontSize: ".57rem", color: C.mossMid, letterSpacing: ".1em", textAlign: "right", lineHeight: 2.2 }}>
-            CST · TCM · Tuina · G-Well · Aroma<br />
-            J.N. Berger-Str. 19 · 7210 Mattersburg
+          {/* RIGHT – breathing circles */}
+          <div className="wk-hero-right" style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,169,154,.15) 0%, transparent 65%)`, pointerEvents: "none" }} />
+            <BreathingCircle size={400} />
+            <div style={{ position: "absolute", bottom: "2.5rem", right: "2.5rem", fontFamily: "'DM Mono',monospace", fontSize: ".57rem", color: C.mossMid, letterSpacing: ".1em", textAlign: "right", lineHeight: 2.2 }}>
+              CST · TCM · Tuina · G-Well · Aroma<br />
+              J.N. Berger-Str. 19 · 7210 Mattersburg
+            </div>
           </div>
         </div>
       </section>
@@ -456,7 +458,7 @@ function CranioPage({ nav }) {
       <section style={{ background: C.moss, paddingTop: "70px", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "42%", zIndex: 0 }}>
           <ImageSlot label="Cranio Hero" desc="Sanfte Berührung am Kopf eines Neugeborenen. Warmes Licht von rechts. Hände liegen, drücken nicht. Stimmung: Stille, Geborgenheit." fill />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,#3A4636 0%,rgba(58,70,54,.2) 100%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,#374732 0%,rgba(55,71,50,.2) 100%)", pointerEvents: "none" }} />
         </div>
         <div style={{ maxWidth: "620px", position: "relative", zIndex: 2, padding: "clamp(5rem,9vw,9rem) clamp(1.4rem,5vw,5rem) 5rem" }}>
           <Tag>Spezialisiert auf Neugeborene & Säuglinge</Tag>
@@ -780,7 +782,7 @@ function UeberMichPage() {
         </div>
         <div style={{ position: "relative", minHeight: "420px" }}>
           <ImageSlot label="Portrait Marion Sailer-Riegler" desc="Natürliches Portrait. Kein weißer Kittel. Direkter Blickkontakt. Warmes Seitenlicht. Authentisch." fill />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(58,70,54,.35) 0%,transparent 40%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(55,71,50,.35) 0%,transparent 40%)", pointerEvents: "none" }} />
         </div>
       </section>
       <section className="wk-section"><div className="wk-inner wk-2col">
