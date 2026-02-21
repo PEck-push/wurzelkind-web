@@ -297,7 +297,7 @@ function HomePage({ nav }) {
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "clamp(4rem,8vw,7rem) clamp(1.4rem,5vw,5rem) clamp(3.5rem,6vw,5.5rem)" }}>
             <div style={{ fontSize: ".62rem", letterSpacing: ".35em", textTransform: "uppercase", color: C.dust, marginBottom: "2rem", display: "flex", alignItems: "center", gap: ".8rem" }}>
               <span style={{ display: "inline-block", width: "1.5rem", height: "1px", background: C.dust, opacity: .6 }} />
-              Mattersburg · Burgenland · Österreich
+              Ganzheitliche Praxis · Mattersburg
             </div>
             <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.0, color: C.cream, marginBottom: "2rem", fontSize: "clamp(2.5rem,5.5vw,6.8rem)" }}>
               Dein Kind darf sich<br />
